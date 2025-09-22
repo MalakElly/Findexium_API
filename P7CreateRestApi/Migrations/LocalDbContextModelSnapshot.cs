@@ -85,11 +85,11 @@ namespace P7CreateRestApi.Migrations
 
             modelBuilder.Entity("Dot.Net.WebApi.Domain.Bid", b =>
                 {
-                    b.Property<int>("BidId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BidId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Account")
                         .HasMaxLength(100)
@@ -104,9 +104,6 @@ namespace P7CreateRestApi.Migrations
                     b.Property<string>("Benchmark")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime?>("BidListDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<double?>("BidPrice")
                         .HasColumnType("float");
@@ -128,6 +125,9 @@ namespace P7CreateRestApi.Migrations
                     b.Property<string>("CreationName")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DealName")
                         .HasMaxLength(100)
@@ -168,7 +168,7 @@ namespace P7CreateRestApi.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("BidId");
+                    b.HasKey("Id");
 
                     b.ToTable("Bids");
                 });
@@ -210,6 +210,7 @@ namespace P7CreateRestApi.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TradeId"));
 
                     b.Property<string>("Account")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -221,10 +222,10 @@ namespace P7CreateRestApi.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<double?>("BuyPrice")
+                    b.Property<double>("BuyPrice")
                         .HasColumnType("float");
 
-                    b.Property<double?>("BuyQuantity")
+                    b.Property<double>("BuyQuantity")
                         .HasColumnType("float");
 
                     b.Property<DateTime?>("CreationDate")
@@ -278,9 +279,8 @@ namespace P7CreateRestApi.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Type")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.HasKey("TradeId");
 

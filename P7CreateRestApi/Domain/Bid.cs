@@ -6,7 +6,7 @@ namespace Dot.Net.WebApi.Domain
     public class Bid
     {
         [Key]
-        public int BidId { get; set; }
+        public int Id { get; set; }
 
         [MaxLength(100)]
         public string? Account { get; set; }
@@ -22,7 +22,7 @@ namespace Dot.Net.WebApi.Domain
         [MaxLength(50)]
         public string? Benchmark { get; set; }
 
-        public DateTime? BidListDate { get; set; }
+        public DateTime? Date { get; set; }
 
         [MaxLength(1000)]
         public string? Commentary { get; set; }

@@ -49,7 +49,7 @@ namespace Dot.Net.WebApi.Controllers
             _context.Bids.Add(bid);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetById), new { id = bid.BidId }, bid);
+            return CreatedAtAction(nameof(GetById), new { id = bid.Id }, bid);
         }
 
         // PUT: api/bid/{id}
@@ -72,7 +72,7 @@ namespace Dot.Net.WebApi.Controllers
             existing.BidPrice = bid.BidPrice;
             existing.AskPrice = bid.AskPrice;
             existing.Benchmark = bid.Benchmark;
-            existing.BidListDate = bid.BidListDate;
+            existing.Date = bid.Date;
             existing.Commentary = bid.Commentary;
             existing.Security = bid.Security;
             existing.Status = bid.Status;

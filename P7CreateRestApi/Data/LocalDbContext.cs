@@ -21,7 +21,7 @@ namespace Dot.Net.WebApi.Data
 
             builder.Entity<User>().HasKey(u => u.Id);
             builder.Entity<Trade>().HasKey(t => t.TradeId);
-            builder.Entity<Bid>().HasKey(b => b.BidId);
+            builder.Entity<Bid>().HasKey(b => b.Id);
             builder.Entity<Rating>().HasKey(r => r.Id);
             builder.Entity<RuleName>().HasKey(r => r.Id);
             builder.Entity<CurvePoint>().HasKey(c => c.Id);

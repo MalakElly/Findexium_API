@@ -41,6 +41,7 @@ namespace Dot.Net.WebApi.Controllers
 
             // Génération du JWT
             var jwt = _config.GetSection("Jwt");
+            var x = jwt["key"];
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt["Key"]!));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 

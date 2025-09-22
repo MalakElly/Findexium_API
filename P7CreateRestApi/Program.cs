@@ -6,11 +6,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using P7CreateRestApi.Services;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 var jwt = builder.Configuration.GetSection("Jwt");
+var keyPrim = jwt["key"];
 var key = Encoding.UTF8.GetBytes(jwt["Key"]);
 // Add services to the container.
 
@@ -28,7 +30,8 @@ builder.Services
             ValidateIssuerSigningKey = true,
             ValidIssuer = jwt["Issuer"],
             ValidAudience = jwt["Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(key)
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            RoleClaimType = ClaimTypes.Role
         };
     });
 
