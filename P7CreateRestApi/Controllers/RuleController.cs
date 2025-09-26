@@ -7,12 +7,12 @@ namespace Dot.Net.WebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize] // User connecté requis
-    public class BidController : ControllerBase
+    [Authorize] // connecté requis
+    public class RuleController : ControllerBase
     {
-        private readonly BidRepository _repository;
+        private readonly RuleRepository _repository;
 
-        public BidController(BidRepository repository)
+        public RuleController(RuleRepository repository)
         {
             _repository = repository;
         }
@@ -20,42 +20,40 @@ namespace Dot.Net.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var bids = await _repository.FindAllAsync();
-            return Ok(bids);
+            var rules = await _repository.FindAllAsync();
+            return Ok(rules);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var bid = await _repository.FindByIdAsync(id);
-            if (bid == null) return NotFound();
-            return Ok(bid);
+            var rule = await _repository.FindByIdAsync(id);
+            if (rule == null) return NotFound();
+            return Ok(rule);
         }
 
         [HttpPost]
         [Authorize(Policy = "AdminOnly")]
-        public async Task<IActionResult> Create([FromBody] Bid bid)
+        public async Task<IActionResult> Create([FromBody] Rule rule)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            await _repository.AddAsync(bid);
-            return CreatedAtAction(nameof(GetById), new { id = bid.Id }, bid);
+            await _repository.AddAsync(rule);
+            return CreatedAtAction(nameof(GetById), new { id = rule.Id }, rule);
         }
 
         [HttpPut("{id}")]
         [Authorize(Policy = "AdminOnly")]
-        public async Task<IActionResult> Update(int id, [FromBody] Bid bid)
+        public async Task<IActionResult> Update(int id, [FromBody] Rule rule)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var existing = await _repository.FindByIdAsync(id);
             if (existing == null) return NotFound();
 
-            existing.Account = bid.Account;
-            existing.Type = bid.Type;
-            existing.BidQuantity = bid.BidQuantity;
-            existing.AskQuantity = bid.AskQuantity;
-            existing.BidPrice = bid.BidPrice;
-            existing.AskPrice = bid.AskPrice;
+            existing.Name = rule.Name;
+            existing.Description = rule.Description;
+            existing.Json = rule.Json;
+            existing.Template = rule.Template;
 
             await _repository.UpdateAsync(existing);
             return NoContent();
@@ -65,10 +63,10 @@ namespace Dot.Net.WebApi.Controllers
         [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> Delete(int id)
         {
-            var bid = await _repository.FindByIdAsync(id);
-            if (bid == null) return NotFound();
+            var rule = await _repository.FindByIdAsync(id);
+            if (rule == null) return NotFound();
 
-            await _repository.DeleteAsync(bid);
+            await _repository.DeleteAsync(rule);
             return NoContent();
         }
     }

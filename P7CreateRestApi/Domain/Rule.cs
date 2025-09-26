@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Dot.Net.WebApi.Controllers
 {
 
-    public class RuleName
+    public class Rule
     {
         [Key]
         public int Id { get; set; }

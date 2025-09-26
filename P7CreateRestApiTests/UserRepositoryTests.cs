@@ -10,7 +10,7 @@ public class UserRepositoryTests
     private LocalDbContext GetDbContext()
     {
         var options = new DbContextOptionsBuilder<LocalDbContext>()
-            .UseInMemoryDatabase(databaseName: "TestDb")
+            .UseInMemoryDatabase(databaseName: "TestUserDb")
             .Options;
 
         return new LocalDbContext(options);

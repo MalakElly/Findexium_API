@@ -30,7 +30,7 @@ namespace Dot.Net.WebApi.Controllers
 
             var existingUser = await _userRepository.FindByUserNameAsync(dto.Username);
             if (existingUser != null)
-                return Conflict("Ce nom d'utilisateur est déjà pris.");
+                return Conflict("Nom d'utilisateur indisponible.");
 
             var user = new User
             {

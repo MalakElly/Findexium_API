@@ -10,6 +10,7 @@ using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
 ConfigurationManager configuration = builder.Configuration;
 var jwt = builder.Configuration.GetSection("Jwt");
 var keyPrim = jwt["key"];
@@ -51,7 +52,7 @@ builder.Services.AddSwaggerGen(options =>
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "Entrer 'Bearer {votre_token}' dans le champ ci-dessous."
+        Description = "Entrer '{votre_token} sans Bearer' dans le champ ci-dessous."
     });
 
     // Ajout requirement global (toutes les routes peuvent utiliser ce schéma)
@@ -73,6 +74,12 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddDbContext<LocalDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<BidRepository>();
+builder.Services.AddScoped<CurvePointRepository>();
+builder.Services.AddScoped<RatingRepository>();
+builder.Services.AddScoped<RuleRepository>();
+builder.Services.AddScoped<TradeRepository>();
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
 var app = builder.Build();

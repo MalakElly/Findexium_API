@@ -7,12 +7,12 @@ namespace Dot.Net.WebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize] // User connecté requis
-    public class BidController : ControllerBase
+    [Authorize] // nécessite d’être connecté
+    public class CurvePointController : ControllerBase
     {
-        private readonly BidRepository _repository;
+        private readonly CurvePointRepository _repository;
 
-        public BidController(BidRepository repository)
+        public CurvePointController(CurvePointRepository repository)
         {
             _repository = repository;
         }
@@ -20,42 +20,39 @@ namespace Dot.Net.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var bids = await _repository.FindAllAsync();
-            return Ok(bids);
+            var curves = await _repository.FindAllAsync();
+            return Ok(curves);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var bid = await _repository.FindByIdAsync(id);
-            if (bid == null) return NotFound();
-            return Ok(bid);
+            var curve = await _repository.FindByIdAsync(id);
+            if (curve == null) return NotFound();
+            return Ok(curve);
         }
 
         [HttpPost]
         [Authorize(Policy = "AdminOnly")]
-        public async Task<IActionResult> Create([FromBody] Bid bid)
+        public async Task<IActionResult> Create([FromBody] CurvePoint curvePoint)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            await _repository.AddAsync(bid);
-            return CreatedAtAction(nameof(GetById), new { id = bid.Id }, bid);
+            await _repository.AddAsync(curvePoint);
+            return CreatedAtAction(nameof(GetById), new { id = curvePoint.Id }, curvePoint);
         }
 
         [HttpPut("{id}")]
         [Authorize(Policy = "AdminOnly")]
-        public async Task<IActionResult> Update(int id, [FromBody] Bid bid)
+        public async Task<IActionResult> Update(int id, [FromBody] CurvePoint curvePoint)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var existing = await _repository.FindByIdAsync(id);
             if (existing == null) return NotFound();
 
-            existing.Account = bid.Account;
-            existing.Type = bid.Type;
-            existing.BidQuantity = bid.BidQuantity;
-            existing.AskQuantity = bid.AskQuantity;
-            existing.BidPrice = bid.BidPrice;
-            existing.AskPrice = bid.AskPrice;
+            existing.CurveId = curvePoint.CurveId;
+            existing.Term = curvePoint.Term;
+            existing.Value = curvePoint.Value;
 
             await _repository.UpdateAsync(existing);
             return NoContent();
@@ -65,10 +62,10 @@ namespace Dot.Net.WebApi.Controllers
         [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> Delete(int id)
         {
-            var bid = await _repository.FindByIdAsync(id);
-            if (bid == null) return NotFound();
+            var curve = await _repository.FindByIdAsync(id);
+            if (curve == null) return NotFound();
 
-            await _repository.DeleteAsync(bid);
+            await _repository.DeleteAsync(curve);
             return NoContent();
         }
     }
