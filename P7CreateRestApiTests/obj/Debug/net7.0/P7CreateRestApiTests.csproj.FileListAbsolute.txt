@@ -454,3 +454,5 @@ C:\Users\Malak.El-Oualy\OneDrive - ib Cegos\Documents\Back-end.NET_API_REST-main
 C:\Users\Malak.El-Oualy\OneDrive - ib Cegos\Documents\Back-end.NET_API_REST-main\P7CreateRestApiTests\obj\Debug\net7.0\P7CreateRestApiTests.pdb
 C:\Users\Malak.El-Oualy\OneDrive - ib Cegos\Documents\Back-end.NET_API_REST-main\P7CreateRestApiTests\obj\Debug\net7.0\P7CreateRestApiTests.genruntimeconfig.cache
 C:\Users\Malak.El-Oualy\OneDrive - ib Cegos\Documents\Back-end.NET_API_REST-main\P7CreateRestApiTests\obj\Debug\net7.0\ref\P7CreateRestApiTests.dll
+C:\Users\Malak.El-Oualy\OneDrive - ib Cegos\Documents\Back-end.NET_API_REST-main\P7CreateRestApiTests\bin\Debug\net7.0\Castle.Core.dll
+C:\Users\Malak.El-Oualy\OneDrive - ib Cegos\Documents\Back-end.NET_API_REST-main\P7CreateRestApiTests\bin\Debug\net7.0\Moq.dll

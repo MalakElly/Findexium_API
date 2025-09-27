@@ -18,6 +18,8 @@ var key = Encoding.UTF8.GetBytes(jwt["Key"]);
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services
@@ -73,7 +75,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddDbContext<LocalDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<BidRepository>();
 builder.Services.AddScoped<CurvePointRepository>();
@@ -83,6 +85,12 @@ builder.Services.AddScoped<TradeRepository>();
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<LocalDbContext>();
+    SeedData.Initialize(context);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

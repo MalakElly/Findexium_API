@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 
 
-namespace Dot.Net.WebApi.Controllers
+namespace Dot.Net.WebApi.Domain
 {
 
     public class Rule

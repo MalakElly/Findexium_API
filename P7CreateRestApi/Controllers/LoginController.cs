@@ -33,11 +33,11 @@ namespace Dot.Net.WebApi.Controllers
             // Vérifie si l’utilisateur existe
             var user = await _userRepository.FindByUserNameAsync(model.Username);
             if (user == null)
-                return Unauthorized("Utilisateur introuvable");
+                return Unauthorized("Utilisateur ou Mot de passe introuvable");
 
             // Vérifie le mot de passe (hash vs mot de passe saisi)
             if (!_hasher.Verify(user.PasswordHash, model.Password))
-                return Unauthorized("Mot de passe invalide");
+                return Unauthorized("Utilisateur ou Mot de passe invalide");
 
             // Génération du JWT
             var jwt = _config.GetSection("Jwt");

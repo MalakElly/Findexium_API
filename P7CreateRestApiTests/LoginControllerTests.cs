@@ -27,7 +27,7 @@ public class LoginControllerTests
     {
         var inMemorySettings = new Dictionary<string, string>
         {
-            {"Jwt:Key", "ma_cle_ultra_secrete_123456"},
+            {"Jwt:Key", "ma_cle_secrete_123456"},
             {"Jwt:Issuer", "Findexium"},
             {"Jwt:Audience", "FindexiumClients"}
         };

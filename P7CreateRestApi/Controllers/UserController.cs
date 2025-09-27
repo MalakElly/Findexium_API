@@ -58,6 +58,9 @@ namespace Dot.Net.WebApi.Controllers
         [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> GetAll()
         {
+            if (!User.IsInRole("ADMIN"))
+                return Forbid();
+
             var users = await _userRepository.FindAllAsync();
 
             var userDtos = users.Select(u => new UserDto
@@ -73,7 +76,7 @@ namespace Dot.Net.WebApi.Controllers
 
         // GET api/user/{id}
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> GetById(int id)
         {
             var user = await _userRepository.FindByIdAsync(id);
@@ -90,10 +93,60 @@ namespace Dot.Net.WebApi.Controllers
 
             return Ok(userDto);
         }
+        [HttpGet("me/{id}")]
+        [Authorize]
+        public async Task<IActionResult> GetMyProfilById(int id)
+        {
+            var user = await _userRepository.FindByIdAsync(id);
+            if (user == null)
+                return NotFound();
+
+            // Vérifie si l’utilisateur connecté demande ses propres infos ou s’il est admin
+            var currentUserId = int.Parse(User.FindFirst("uid").Value);
+            var currentUserRole = User.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
+
+            if (currentUserId != id && currentUserRole != "ADMIN")
+                return Forbid();
+
+            var userDto = new UserDto
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Fullname = user.Fullname,
+                Role = user.Role
+            };
+
+            return Ok(userDto);
+        }
+        [HttpPut("me/{id}")]
+        [Authorize]
+        public async Task<IActionResult> UpdateMyProfileById(int id)
+        {
+            var user = await _userRepository.FindByIdAsync(id);
+            if (user == null)
+                return NotFound();
+
+            // Vérifie si l’utilisateur connecté demande ses propres infos ou s’il est admin
+            var currentUserId = int.Parse(User.FindFirst("uid").Value);
+            var currentUserRole = User.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
+
+            if (currentUserId != id && currentUserRole != "ADMIN")
+                return Forbid();
+
+            var userDto = new UserDto
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Fullname = user.Fullname,
+                Role = user.Role
+            };
+
+            return Ok(userDto);
+        }
 
         // PUT api/user/{id}
         [HttpPut("{id}")]
-        [Authorize]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> Update(int id, [FromBody] UserDto dto)
         {
             if (!ModelState.IsValid)
@@ -109,7 +162,7 @@ namespace Dot.Net.WebApi.Controllers
 
             await _userRepository.UpdateAsync(existing);
 
-            return NoContent();
+            return Ok(dto);
         }
 
         // DELETE api/user/{id}
@@ -122,7 +175,7 @@ namespace Dot.Net.WebApi.Controllers
                 return NotFound();
 
             await _userRepository.DeleteAsync(user);
-            return NoContent();
+            return Ok(new { message = $"Utilisateur {id} supprimé avec succès" });//204
         }
     }
 }

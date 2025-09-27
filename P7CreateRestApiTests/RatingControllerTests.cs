@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Xunit;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Dot.Net.WebApi.Controllers.Domain;
+using Dot.Net.WebApi.Domain;
 
 public class RatingControllerTests
 {

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Dot.Net.WebApi.Controllers.Domain
+namespace Dot.Net.WebApi.Domain
 {
 
     public class Rating
